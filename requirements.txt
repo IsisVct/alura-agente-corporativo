@@ -1,0 +1,21 @@
+# Backend API
+fastapi
+uvicorn
+
+# Orquestração de IA
+langchain
+langchain-openai  # (Ou langchain-huggingface se for usar modelos open-source)
+
+# Banco de Dados Vetorial
+chromadb
+
+# Leitura de múltiplos formatos de arquivo
+pypdf             # Para ler PDFs
+python-docx       # Para ler arquivos Word
+openpyxl          # Para ler Excel
+pandas            # Excelente para manipular CSV e Excel
+
+# Variáveis de ambiente
+python-dotenv
+
+pip install langchain-huggingface langchain-chroma sentence-transformers
