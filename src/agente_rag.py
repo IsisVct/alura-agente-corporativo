@@ -29,7 +29,7 @@ def obter_retriever(caminho_db="./chroma_db", top_k=4):
 
 def formatar_contexto(documentos):
     """
-    5. Montagem do contexto:
+    Montagem do contexto:
     Une os trechos selecionados preservando metadados de origem para citação.
     """
     blocos = []
@@ -46,7 +46,6 @@ def criar_cadeia_rag():
     Monta a cadeia completa: Pergunta -> Recuperação -> Contexto + Prompt -> LLM -> Resposta
     """
     retriever = obter_retriever()
-    
 
     llm = ChatGroq(
         model="qwen/qwen3.6-27b", 
@@ -92,8 +91,8 @@ Resposta Final:"""
     return cadeia_rag
 
 if __name__ == "__main__":
-    if not os.getenv("GOOGLE_API_KEY"):
-        print("Erro: A variável GOOGLE_API_KEY não foi encontrada no arquivo .env.")
+    if not os.getenv("GROQ_API_KEY"):
+        print("Erro: A variável GROQ_API_KEY não foi encontrada no arquivo .env.")
     else:
         print("Inicializando o agente...")
         agente = criar_cadeia_rag()

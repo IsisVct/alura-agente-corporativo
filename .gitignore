@@ -8,7 +8,6 @@ venv
 # Configurações sensíveis e chaves de API
 .env
 
-# Banco de dados vetorial local do RAG
 
 # Python (Byte-compiled / Otimizados)
 __pycache__/
