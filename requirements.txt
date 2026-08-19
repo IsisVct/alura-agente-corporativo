@@ -12,9 +12,15 @@ chromadb
 # Leitura de múltiplos formatos de arquivo
 pypdf             # Para ler PDFs
 python-docx       # Para ler arquivos Word
-openpyxl          # Para ler Excel
-pandas            # Excelente para manipular CSV e Excel
-
+openpyxl          # Para ler Excel            # Excelente para manipular CSV e Excel
+fastapi
+uvicorn
+pydantic
+langchain
+langchain-groq
+langchain-chroma
+pandas
+openpyxl
 # Variáveis de ambiente
 python-dotenv
 
