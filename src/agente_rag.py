@@ -1,4 +1,5 @@
 import os
+from functools import lru_cache
 from dotenv import load_dotenv
 from langchain_groq import ChatGroq
 from langchain_huggingface import HuggingFaceEmbeddings
@@ -8,6 +9,12 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnablePassthrough
 
 load_dotenv()
+
+@lru_cache(maxsize=1)
+def obter_agente_rag():
+    """Cria a cadeia RAG somente quando ela for necessária, evitando carga pesada no startup."""
+    return criar_cadeia_rag()
+
 
 def obter_retriever(caminho_db="./chroma_db", top_k=4):
     """

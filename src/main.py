@@ -1,11 +1,11 @@
 import re
+import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
-from src.agente_rag import criar_cadeia_rag
-import os
+from src.agente_rag import obter_agente_rag
 
 app = FastAPI(title="De Souza Bank - Agente Corporativo")
 
@@ -17,14 +17,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-agente = criar_cadeia_rag()
-
 class RequisicaoPergunta(BaseModel):
     pergunta: str
 
 @app.post("/api/perguntar")
 def endpoint_perguntar(req: RequisicaoPergunta):
     try:
+        agente = obter_agente_rag()
         resposta = agente.invoke(req.pergunta)
         
         resposta_limpa = re.sub(r'<think>.*?</think>\n?', '', resposta, flags=re.DOTALL).strip()
