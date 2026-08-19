@@ -6,12 +6,8 @@ from fastapi.responses import FileResponse
 from pydantic import BaseModel
 from src.agente_rag import criar_cadeia_rag
 import os
-import subprocess
 
-if not os.path.exists("chroma_db"):
-    print("Banco vetorial não encontrado. Executando indexação automática...")
-    subprocess.run(["python", "src/processador_docs.py"])
-app = FastAPI(title="Neo Bank - Agente Corporativo")
+app = FastAPI(title="De Souza Bank - Agente Corporativo")
 
 app.add_middleware(
     CORSMiddleware,
