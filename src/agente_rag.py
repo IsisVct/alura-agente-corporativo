@@ -8,7 +8,6 @@ from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnablePassthrough
 
-# Carrega a GOOGLE_API_KEY do arquivo .env
 load_dotenv()
 
 def obter_retriever(caminho_db="./chroma_db", top_k=4):
@@ -23,7 +22,6 @@ def obter_retriever(caminho_db="./chroma_db", top_k=4):
         embedding_function=modelo_embedding
     )
     
-    # 2. Busca semântica por similaridade (retornando os Top K trechos mais próximos)
     retriever = banco_vetorial.as_retriever(
         search_type="similarity",
         search_kwargs={"k": top_k}
@@ -50,14 +48,12 @@ def criar_cadeia_rag():
     """
     retriever = obter_retriever()
     
-    # Modelo LLM gratuito (Gemini 1.5 Flash)
-    # Inicializando o modelo Llama 3.1 mais recente via Groq
+
     llm = ChatGroq(
         model="qwen/qwen3.6-27b", 
         temperature=0.2
     )
-    # Template de prompt corporativo com restrição de alucinação
-    # Atualização do Template de Prompt no src/agente_rag.py
+
     template_prompt = """Você é o Assistente Virtual Corporativo da nossa Fintech.
 Seu objetivo é responder dúvidas de colaboradores baseando-se ESTRITAMENTE no contexto fornecido abaixo.
 
@@ -84,7 +80,6 @@ Resposta Final:"""
 
     prompt = PromptTemplate.from_template(template_prompt)
     
-    # Cadeia utilizando LangChain Expression Language (LCEL)
     cadeia_rag = (
         {
             "context": retriever | formatar_contexto,
@@ -97,7 +92,6 @@ Resposta Final:"""
     
     return cadeia_rag
 
-# Bloco de execução para testes locais via terminal
 if __name__ == "__main__":
     if not os.getenv("GOOGLE_API_KEY"):
         print("Erro: A variável GOOGLE_API_KEY não foi encontrada no arquivo .env.")

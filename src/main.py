@@ -6,10 +6,13 @@ from fastapi.responses import FileResponse
 from pydantic import BaseModel
 from src.agente_rag import criar_cadeia_rag
 import os
+import subprocess
 
-app = FastAPI(title="De Souza Bank - Agente Corporativo")
+if not os.path.exists("chroma_db"):
+    print("Banco vetorial não encontrado. Executando indexação automática...")
+    subprocess.run(["python", "src/processador_docs.py"])
+app = FastAPI(title="Neo Bank - Agente Corporativo")
 
-# Configuração de CORS para permitir requisições locais do Vite e conexões abertas
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -28,15 +31,13 @@ def endpoint_perguntar(req: RequisicaoPergunta):
     try:
         resposta = agente.invoke(req.pergunta)
         
-        # Expressão regular para remover o bloco <think> e seu conteúdo gerado por modelos de raciocínio
         resposta_limpa = re.sub(r'<think>.*?</think>\n?', '', resposta, flags=re.DOTALL).strip()
         
         return {"resposta": resposta_limpa}
     except Exception as e:
         return {"resposta": f"Erro interno ao processar a requisição: {str(e)}"}
 
-# --- INTEGRAÇÃO COM O FRONT-END (REACT BUILD) ---
-# Permite que o FastAPI sirva a interface construída na nuvem OCI ou localmente
+
 caminho_dist = os.path.join(os.path.dirname(__file__), "../frontend/dist")
 
 if os.path.exists(caminho_dist):
