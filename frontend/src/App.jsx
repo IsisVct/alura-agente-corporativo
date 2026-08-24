@@ -25,7 +25,7 @@ function App() {
 
     try {
       // Faz a requisição para a nossa API em Python (FastAPI)
-      const resposta = await axios.post('http://localhost:8000/api/perguntar', {
+      const resposta = await axios.post('/api/perguntar', {
         pergunta: novaPergunta
       });
 
